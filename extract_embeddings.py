@@ -2,11 +2,8 @@
 # python extract_embeddings.py --dataset dataset --embeddings output/embeddings.pickle \
 #	--detector face_detection_model --embedding-model openface_nn4.small2.v1.t7
 
-# import the necessary packages
-#from imutils import paths
 import numpy as np
 import argparse
-#import imutils
 import pickle
 import cv2
 import os
@@ -40,16 +37,21 @@ protoPath = os.path.sep.join([args["detector"], "deploy.prototxt"])
 modelPath = os.path.sep.join([args["detector"],
 	"res10_300x300_ssd_iter_140000.caffemodel"])
 
-protoPath = r"C:\Users\avina\Desktop\desk2\Cyber-Sense-2.0\opencv-face-recognition\face_detection_model\
-			deploy.prototxt"
-modelPath = r"C:\Users\avina\Desktop\desk2\Cyber-Sense-2.0\opencv-face-recognition\face_detection_model\
-			res10_300x300_ssd_iter_140000.caffemodel"
+protoPath = r"C:\Users\avina\Desktop\desk2\Cyber-Sense-2.0\opencv-face-recognition\
+			face_detection_model\deploy.prototxt"
+
+modelPath = r"C:\Users\avina\Documents\GitHub\RealTime-FaceRecognition\
+			face_detection_model\res10_300x300_ssd_iter_140000.caffemodel"
+
+embedding_model = r"C:\Users\avina\Documents\GitHub\RealTime-FaceRecognition\nn4.small2.v1.t7"
+
+dataset_path = r"C:\Users\avina\Documents\GitHub\RealTime-FaceRecognition\dataset"
 
 detector = cv2.dnn.readNetFromCaffe(protoPath, modelPath)
 
 # load our serialized face embedding model from disk
 print("[INFO] loading face recognizer...")
-embedder = cv2.dnn.readNetFromTorch(args["embedding_model"])
+embedder = cv2.dnn.readNetFromTorch(embedding_model)
 
 # grab the paths to the input images in our dataset
 print("[INFO] quantifying faces...")
