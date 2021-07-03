@@ -20,6 +20,10 @@ parts/
 sdist/
 var/
 wheels/
+dataset/
+Embeddings-model/
+output/
+test_data/
 pip-wheel-metadata/
 share/python-wheels/
 *.egg-info/
