@@ -7,6 +7,7 @@ import argparse
 import pickle
 import cv2
 import os
+from imutils import paths, resize
 
 
 # construct the argument parser and parse the arguments
@@ -24,10 +25,10 @@ ap.add_argument("-c", "--confidence", type=float, default=0.5,
 	help="minimum probability to filter weak detections")
 args = vars(ap.parse_args())
 """
-args = {"dataset": r"C:\Users\jiyak\Desktop\Cyber-Sense-2.0\opencv-face-recognition\dataset", 
-        "embeddings":r"C:\Users\jiyak\Desktop\Cyber-Sense-2.0\opencv-face-recognition\output\embeddings.pickle", 
-        "detector" : r"C:\Users\jiyak\Desktop\Cyber-Sense-2.0\opencv-face-recognition\face_detection_model", 
-        "embedding_model":r"C:\Users\jiyak\Desktop\Cyber-Sense-2.0\opencv-face-recognition\nn4.small2.v1.t7", 
+args = {"dataset": r"C:\Users\jiyak\Desktop\Cyber-Sense-2.0\opencv-face-recognition\dataset",
+        "embeddings":r"C:\Users\jiyak\Desktop\Cyber-Sense-2.0\opencv-face-recognition\output\embeddings.pickle",
+        "detector" : r"C:\Users\jiyak\Desktop\Cyber-Sense-2.0\opencv-face-recognition\face_detection_model",
+        "embedding_model":r"C:\Users\jiyak\Desktop\Cyber-Sense-2.0\opencv-face-recognition\nn4.small2.v1.t7",
         "confidence":0.5
         }
 
@@ -36,7 +37,7 @@ print("[INFO] loading face detector...")
 protoPath = os.path.sep.join([args["detector"], "deploy.prototxt"])
 modelPath = os.path.sep.join([args["detector"],
 	"res10_300x300_ssd_iter_140000.caffemodel"])
-
+confidence = 0.5
 protoPath = r"C:\Users\avina\Desktop\desk2\Cyber-Sense-2.0\opencv-face-recognition\
 			face_detection_model\deploy.prototxt"
 
@@ -55,7 +56,7 @@ embedder = cv2.dnn.readNetFromTorch(embedding_model)
 
 # grab the paths to the input images in our dataset
 print("[INFO] quantifying faces...")
-imagePaths = list(paths.list_images(args["dataset"]))
+imagePaths = list(paths.list_images(dataset_path))
 
 # initialize our lists of extracted facial embeddings and
 # corresponding people names
@@ -76,7 +77,7 @@ for (i, imagePath) in enumerate(imagePaths):
 	# maintaining the aspect ratio), and then grab the image
 	# dimensions
 	image = cv2.imread(imagePath)
-	image = imutils.resize(image, width=600)
+	image = resize(image, width=600)
 	(h, w) = image.shape[:2]
 
 	# construct a blob from the image
@@ -99,7 +100,7 @@ for (i, imagePath) in enumerate(imagePaths):
 		# ensure that the detection with the largest probability also
 		# means our minimum probability test (thus helping filter out
 		# weak detections)
-		if confidence > args["confidence"]:
+		if confidence > 0.5:
 			# compute the (x, y)-coordinates of the bounding box for
 			# the face
 			box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
